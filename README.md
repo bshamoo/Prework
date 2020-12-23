@@ -22,9 +22,9 @@ The following **optional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Pre-work Video Walkthrough' width=250 alt='Pre-work Video Walkthrough' />
+<img src='https://imgur.com/a/nZB07q8' title='Pre-work Video Walkthrough' width=250 alt='Pre-work Video Walkthrough' />
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
+GIF created with [ezgif](https://ezgif.com/video-to-gif).
 
 ## Notes
 
