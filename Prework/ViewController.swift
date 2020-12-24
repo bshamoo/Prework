@@ -18,9 +18,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         // Sets Nav title
         self.title = "Tip Calculator"
+        // Set keyboard to always be visible and to a decimal pad
+        billAmountTextField.keyboardType = UIKeyboardType.decimalPad
     }
     
     @IBAction func onTap(_ sender: Any) {
@@ -34,7 +36,11 @@ class ViewController: UIViewController {
         defaults.set(Double(billAmountTextField.text!) ?? 0, forKey: "myBill")
         let bill = defaults.double(forKey: "myBill")
         
-        let tipPercentages = [0.12, 0.15, 0.18, 0.2, 0.25]
+        // Set inputted tip percentages
+        var tipPercentages = [0.12, 0.15, 0.18, 0.2, 0.25]
+        for i in 0...4 {
+            tipPercentages[i] = (Double(defaults.integer(forKey: "myTip" + String(i  + 1))) / 100)
+        }
         
         // Calculate tip and total
         defaults.set(tipControl.selectedSegmentIndex, forKey: "myTipIndex")
@@ -53,23 +59,31 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("view will appear")
+        
+        billAmountTextField.becomeFirstResponder()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         // Init defaults to set local data
         let defaults = UserDefaults.standard
         
+        // Restore previous inputted values
         if(defaults.double(forKey: "myBill") != 0) {
-            billAmountTextField.text = String(format: "%.2f", defaults.double(forKey: "myBill"))
+            billAmountTextField.text! = String(format: "%.2f", defaults.double(forKey: "myBill"))
         }
         tipControl.selectedSegmentIndex = defaults.integer(forKey: "myTipIndex")
         tipPercentageLabel.text = String(format: "$%.2f", defaults.double(forKey: "myTip"))
         totalLabel.text = String(format: "$%.2f", defaults.double(forKey: "myTotal"))
         
-        defaults.synchronize()
+        // Set title percentages for tip segmented control
+        tipControl.setTitle(String( defaults.integer(forKey: "myTip1")) + "%", forSegmentAt: 0 )
+        tipControl.setTitle(String( defaults.integer(forKey: "myTip2")) + "%", forSegmentAt: 1 )
+        tipControl.setTitle(String( defaults.integer(forKey: "myTip3")) + "%", forSegmentAt: 2 )
+        tipControl.setTitle(String( defaults.integer(forKey: "myTip4")) + "%", forSegmentAt: 3 )
+        tipControl.setTitle(String( defaults.integer(forKey: "myTip5")) + "%", forSegmentAt: 4 )
         
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        defaults.synchronize()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
